@@ -6,13 +6,18 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 module.exports = {
+  mode: 'development',
+  entry: './src/index.tsx',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: "ts-loader"
         }
       },
       {

@@ -1,8 +1,29 @@
 package main
 
 import (
+	_ "encoding/json"
+	"fmt"
+	"time"
+
 	"github.com/Equanox/gotron"
 )
+
+type CustomEvent struct {
+	*gotron.Event
+	Content string `json:content`
+}
+
+// EventSenderHelloWorld
+func EventSenderHelloWorld(window *gotron.BrowserWindow) {
+	for {
+		time.Sleep(time.Second * 1)
+		window.Send(&CustomEvent{
+			Event:   &gotron.Event{Event: "HELLO_WORLD"},
+			Content: "Hello Gotron World !!!!",
+		})
+		fmt.Println("ddd")
+	}
+}
 
 func main() {
 	// Create a new browser window instance
@@ -25,7 +46,8 @@ func main() {
 	}
 
 	// Open dev tools must be used after window.Start
-	// window.OpenDevTools()
+	window.OpenDevTools()
+	go EventSenderHelloWorld(window)
 
 	// Wait for the application to close
 	<-done
